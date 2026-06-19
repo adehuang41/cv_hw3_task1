@@ -12,6 +12,7 @@
 \usepackage{hyperref}
 \usepackage{caption}
 \usepackage{amsmath}
+\usepackage{float}
 
 \hypersetup{hidelinks}
 \graphicspath{
@@ -163,8 +164,9 @@ A/B/C splats + D splats $\rightarrow$ merged Gaussian scene $\rightarrow$ 2DGS r
 
 正式流程中，我们人工剔除 30 张模糊、重复或视角过偏的帧，保留 150 张图像。COLMAP 正式运行注册 150/150 张图像，得到 41278 个稀疏点。由于原始 COLMAP 相机模型为 SIMPLE\_RADIAL，而 2DGS 训练需要 PINHOLE 或 SIMPLE\_PINHOLE 输入，我们在不改动原始 COLMAP 输出的前提下，另行运行 image undistorter，生成 150 张 undistorted 图像和 PINHOLE COLMAP 模型。最终 2DGS 训练使用 resolution scale 4，训练 30000 次迭代。
 
-\begin{center}
-\captionof{table}{Object A 的重建设置与主要指标。}
+\begin{table}[H]
+\centering
+\caption{Object A 的重建设置与主要指标。}
 \label{tab:object_a_recon_metrics}
 \small
 \begin{tabularx}{\textwidth}{p{0.22\textwidth} X}
@@ -180,7 +182,7 @@ COLMAP & 150/150 张注册，注册率 100\%，稀疏点 41278 个 \\
 最终规模 & loss = 0.03195，normal = 0.00522，226409 个 Gaussian points \\
 \bottomrule
 \end{tabularx}
-\end{center}
+\end{table}
 
 从数值上看，A 在 7000 到 30000 次迭代之间仍有明显收益：PSNR 从 26.38 dB 提升到 28.57 dB，L1 从 0.03496 降到 0.02429。后续 mesh 提取使用 30000 次迭代 checkpoint。图 \ref{fig:object_a_2dgs_views} 展示了该 checkpoint 的多视角渲染结果，书本封面、书脊、纸页和厚度在不同视角下均可辨认。
 
